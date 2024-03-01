@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Kiparo NewsApp</string>
+    <string name="news_section">News: %1$s</string>
+</resources>
