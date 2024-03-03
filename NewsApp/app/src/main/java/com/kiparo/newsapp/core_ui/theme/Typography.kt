@@ -2,7 +2,7 @@
  * Copyright (c) 2023. Kiparo.ru
  */
 
-package com.kiparo.newsapp.presentation.core_ui.theme
+package com.kiparo.newsapp.core_ui.theme
 
 import androidx.compose.material3.Typography
 
