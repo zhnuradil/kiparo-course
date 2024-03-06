@@ -6,7 +6,7 @@ plugins {
     alias(libs.plugins.org.jetbrains.kotlin.android)
 }
 
-val kiparoApi: String = gradleLocalProperties(rootDir).getProperty("KIPARO_API")
+val kiparoApi: String = gradleLocalProperties(rootDir, providers).getProperty("KIPARO_API")
 
 android {
     namespace = "com.kiparo.newsapp"

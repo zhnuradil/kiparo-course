@@ -2,7 +2,7 @@
  * Copyright (c) 2023. Kiparo.ru
  */
 
-package com.kiparo.newsapp.presentation.core_ui.theme
+package com.kiparo.newsapp.core_ui.theme
 
 import android.app.Activity
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -20,12 +20,18 @@ import androidx.core.view.WindowCompat
 
 private val darkColorScheme = darkColorScheme(
     primary = Primary,
-    // TODO Implement
+    onBackground = OnBackground,
+    surface = Surface,
+    onSurface = OnSurface,
+    onSurfaceVariant = OnSurfaceVariant
 )
 
 private val lightColorScheme = lightColorScheme(
     primary = Primary,
-    // TODO Implement
+    onBackground = OnBackground,
+    surface = Surface,
+    onSurface = OnSurface,
+    onSurfaceVariant = OnSurfaceVariant
 )
 
 @Composable

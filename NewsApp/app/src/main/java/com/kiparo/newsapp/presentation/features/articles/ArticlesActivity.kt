@@ -26,7 +26,7 @@ import com.kiparo.newsapp.data.repository.ArticleRepositoryImpl
 import com.kiparo.newsapp.domain.models.ArticleSection
 import com.kiparo.newsapp.domain.models.mockArticleSections
 import com.kiparo.newsapp.domain.repository.ArticleRepository
-import com.kiparo.newsapp.presentation.core_ui.theme.NewsAppTheme
+import com.kiparo.newsapp.core_ui.theme.NewsAppTheme
 import com.kiparo.newsapp.presentation.features.articles.ui.ArticleTopBar
 import com.kiparo.newsapp.presentation.features.articles.ui.Articles
 import kotlinx.coroutines.Dispatchers

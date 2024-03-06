@@ -6,7 +6,7 @@ minSdk = "26"
 targetSdk = "34"
 
 # plugins
-agp = "8.1.2"
+agp = "8.3.0"
 org-jetbrains-kotlin-android = "1.9.10"
 
 # core
