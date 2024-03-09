@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -24,19 +25,19 @@ fun Shipments(group: ShipmentGroup, modifier: Modifier = Modifier) {
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background),
         verticalArrangement = Arrangement.spacedBy(space_16),
-        contentPadding = PaddingValues(padding_16)
+        contentPadding = PaddingValues(top = padding_16, bottom = padding_16)
     ) {
         item {
             Header(title = stringResource(id = R.string.ready_to_pickup))
         }
-        group.highlights.forEach {
-
+        items(group.highlights) { shipment ->
+            ShipmentItem(shipment = shipment)
         }
         item {
             Header(title = stringResource(id = R.string.others))
         }
-        group.others.forEach {
-
+        items(group.others) { shipment ->
+            ShipmentItem(shipment = shipment)
         }
     }
 }
