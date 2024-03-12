@@ -5,6 +5,7 @@
 package com.kiparo.deliveryapp.presentation.core_ui.theme
 
 import androidx.compose.material3.Typography
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
@@ -27,13 +28,6 @@ val Typography = Typography(
         lineHeight = 24.sp,
         letterSpacing = 0.4.sp
     ),
-    bodyLarge = TextStyle(
-        fontFamily = montserratFontFamily,
-        fontWeight = FontWeight.Bold,
-        fontSize = 15.sp,
-        lineHeight = 24.sp,
-        letterSpacing = 0.4.sp
-    ),
     bodySmall = TextStyle(
         fontFamily = montserratFontFamily,
         fontWeight = FontWeight.Bold,
@@ -49,3 +43,13 @@ val Typography = Typography(
         letterSpacing = 0.4.sp
     )
 )
+
+val Typography.bodyMediumBold: TextStyle
+    @Composable
+    get() = TextStyle(
+        fontFamily = montserratFontFamily,
+        fontWeight = FontWeight.Bold,
+        fontSize = 15.sp,
+        lineHeight = 24.sp,
+        letterSpacing = 0.4.sp
+    )

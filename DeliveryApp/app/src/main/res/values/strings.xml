@@ -21,5 +21,6 @@
     <string name="ready_to_pickup">Ready to pickup</string>
     <string name="others">Others</string>
     <string name="waiting_picked_up_to">Waiting to be picked up to</string>
+    <string name="empty">""</string>
 
 </resources>
