@@ -24,10 +24,11 @@ import com.kiparo.deliveryapp.BuildConfig
 import com.kiparo.deliveryapp.data.network.provideMoshi
 import com.kiparo.deliveryapp.data.network.provideShipmentApi
 import com.kiparo.deliveryapp.data.repository.ShipmentRepositoryImpl
-import com.kiparo.deliveryapp.domain.models.ShipmentGroup
 import com.kiparo.deliveryapp.domain.models.mockShipmentsGroup
 import com.kiparo.deliveryapp.domain.repository.ShipmentRepository
 import com.kiparo.deliveryapp.presentation.core_ui.theme.DeliveryAppTheme
+import com.kiparo.deliveryapp.presentation.features.shipments.mappers.toUi
+import com.kiparo.deliveryapp.presentation.features.shipments.models.ShipmentGroupUi
 import com.kiparo.deliveryapp.presentation.features.shipments.ui.Shipments
 import com.kiparo.deliveryapp.presentation.features.shipments.ui.ShipmentsTopBar
 import kotlinx.coroutines.Dispatchers
@@ -58,11 +59,13 @@ class ShipmentsActivity : ComponentActivity() {
 
     @Composable
     fun ShipmentsScreen() {
-        val shipments = remember { mutableStateOf(ShipmentGroup(emptyList(), emptyList())) }
+        val shipmentsState = remember { mutableStateOf(ShipmentGroupUi(emptyList(), emptyList())) }
         val loading = remember { mutableStateOf(true) }
 
         LaunchedEffect(Unit) {
-            shipments.value = shipmentRepository.getGroupedByHighlight()
+            val shipments = shipmentRepository.getGroupedByHighlight()
+            shipmentsState.value = shipments.toUi()
+
             loading.value = false
         }
 
@@ -74,7 +77,7 @@ class ShipmentsActivity : ComponentActivity() {
                 CircularProgressIndicator()
             }
         } else {
-            Shipments(group = shipments.value)
+            Shipments(group = shipmentsState.value)
         }
     }
 }
@@ -85,7 +88,7 @@ fun CategoriesPreview() {
     DeliveryAppTheme {
         Column {
             ShipmentsTopBar()
-            Shipments(group = mockShipmentsGroup())
+            Shipments(group = mockShipmentsGroup().toUi())
         }
     }
 }

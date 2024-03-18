@@ -19,11 +19,21 @@ import androidx.core.view.WindowCompat
 // https://developer.android.com/jetpack/compose/designsystems/anatomy
 
 private val darkColorScheme = darkColorScheme(
-    // TODO Implement
+    primary = Primary,
+    background = Background,
+    surface = Surface,
+    onSurface = OnSurface,
+    surfaceVariant = SurfaceVariant,
+    onSurfaceVariant = OnSurfaceVariant
 )
 
 private val lightColorScheme = lightColorScheme(
-    // TODO Implement
+    primary = Primary,
+    background = Background,
+    surface = Surface,
+    onSurface = OnSurface,
+    surfaceVariant = SurfaceVariant,
+    onSurfaceVariant = OnSurfaceVariant
 )
 
 @Composable
