@@ -6,14 +6,21 @@ import androidx.compose.ui.text.input.OffsetMapping
 import androidx.compose.ui.text.input.TransformedText
 import androidx.compose.ui.text.input.VisualTransformation
 
-class CreditCardVisualTransformation() : VisualTransformation {
+class CreditCardVisualTransformation(private val divider: String = SINGLE_SPACE) : VisualTransformation {
+
+    companion object{
+        const val SINGLE_SPACE = " "
+        const val DOUBLE_SPACE = "  "
+        const val DIGITS_LIMIT = 16
+    }
+
     override fun filter(text: AnnotatedString): TransformedText {
         // Making XXXX XXXX XXXX XXXX string.
         val trimmed = if (text.text.length >= 16) text.text.substring(0..15) else text.text
         var out = ""
         for (i in trimmed.indices) {
             out += trimmed[i]
-            if (i % 4 == 3 && i != 15) out += " "
+            if (i % 4 == 3 && i != 15) out += divider
         }
 
         /**
@@ -88,6 +95,10 @@ class PhoneVisualTransformation(val mask: String, val maskCharacter: Char) : Vis
     }
 
     private val maxLength = mask.count { it == maskCharacter }
+
+    fun applyTo(phone: String): AnnotatedString {
+        return filter(AnnotatedString(phone)).text
+    }
 
     override fun filter(text: AnnotatedString): TransformedText {
         val trimmed = if (text.length > maxLength) text.take(maxLength) else text

@@ -1,4 +1,4 @@
-package ru.kiparo.lessons.kiparoshopping.register
+package ru.kiparo.lessons.kiparoshopping.presentation.register
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -42,7 +42,8 @@ fun RegisterScreen(
 ) {
     Column {
         TopBar(
-            title = stringResource(id = R.string.register_screen_title)
+            title = stringResource(id = R.string.register_screen_title),
+            onBackClick = {}
         )
         Column(
             modifier = Modifier

@@ -4,38 +4,46 @@ import android.os.Bundle
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Surface
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
-import ru.kiparo.lessons.kiparoshopping.register.RegisterScreen
-import ru.kiparo.lessons.kiparoshopping.register.RegisterViewModel
+import ru.kiparo.lessons.kiparoshopping.presentation.navigation.KiparoShoppingPage
+import ru.kiparo.lessons.kiparoshopping.presentation.navigation.Register
+import ru.kiparo.lessons.kiparoshopping.presentation.navigation.kiparoShoppingTabRowPages
+import ru.kiparo.lessons.kiparoshopping.presentation.register.RegisterPage
 import ru.kiparo.lessons.kiparoshopping.ui.theme.KiparoShoppingTheme
+import ru.kiparo.lessons.kiparoshopping.ui.widgets.KiparoShoppingTabRow
 
 class MainActivity : ComponentActivity() {
 
+    @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         setContent {
+            var currentPage: KiparoShoppingPage by remember {
+                mutableStateOf(Register)
+            }
+
             KiparoShoppingTheme {
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                ) {
-                    val viewModel: RegisterViewModel = viewModel()
-                    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-                    RegisterScreen(
-                        uiState = uiState,
-                        onNameChange = viewModel::onNameChange,
-                        onEmailChange = viewModel::onEmailChange,
-                        onMobileChange = viewModel::onMobileChange,
-                        onPasswordChange = viewModel::onPasswordChange,
-                        onPasswordConfirmChange = viewModel::onPasswordConfirmChange,
-                        onReferalChange = viewModel::onReferalChange,
-                        onSubmit = viewModel::onSubmit,
-                    )
+                Scaffold(
+                    topBar = {
+                        KiparoShoppingTabRow(
+                            allScreens = kiparoShoppingTabRowPages,
+                            onTabSelected = { screen -> currentPage = screen },
+                            currentScreen = currentPage
+                        )
+                    }
+                ) { innerPadding ->
+                    Box(modifier = Modifier.padding(innerPadding)) {
+                        currentPage.screen()
+                    }
                 }
             }
         }

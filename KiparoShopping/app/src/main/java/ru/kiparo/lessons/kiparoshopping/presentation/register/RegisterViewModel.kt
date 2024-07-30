@@ -1,4 +1,4 @@
-package ru.kiparo.lessons.kiparoshopping.register
+package ru.kiparo.lessons.kiparoshopping.presentation.register
 
 import androidx.compose.runtime.Stable
 import androidx.lifecycle.ViewModel
@@ -88,7 +88,7 @@ class RegisterViewModel : ViewModel() {
         }
     }
 
-    fun onSubmit() {
+    fun register() {
         _uiState.update { currentState ->
             currentState.copy(
                 nameError = currentState.name.isBlank(),

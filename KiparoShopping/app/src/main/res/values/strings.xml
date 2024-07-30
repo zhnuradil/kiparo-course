@@ -27,4 +27,11 @@
     <string name="full_name">Full Name</string>
     <string name="referal_code">Referal Code (Optional)</string>
     <string name="password_visibility">password_visibility</string>
+    <string name="verification_screen_title">Verification</string>
+    <string name="send_code_to_mobile">We sent you a code to verify your phone number</string>
+    <string name="sent_to">Sent to %1$s</string>
+    <string name="empty_string">\"\"</string>
+    <string name="have_not_received_code">I didn\'t receive a code</string>
+    <string name="resend">Resend</string>
+    <string name="verify">Verify</string>
 </resources>

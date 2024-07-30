@@ -7,3 +7,6 @@ val SkinnyJeans = Color(0xFF518EF8)
 val Silver = Color(0xFFBDBDBD)
 val Placebo = Color(0xFFE6E6E6)
 val White = Color(0xFFFFFFFF)
+
+val BlackWash = Color(0xFF0B0C0E)
+val EndingNaviBlue = Color(0xFF19385B)

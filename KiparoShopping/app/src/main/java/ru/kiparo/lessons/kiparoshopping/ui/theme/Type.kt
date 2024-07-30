@@ -33,9 +33,11 @@ val playfairFamily = FontFamily(
         style = FontStyle.Italic,
         weight = FontWeight.Black
     ),
-    Font(resId = R.font.playfairdisplay_bold,
+    Font(
+        resId = R.font.playfairdisplay_bold,
         style = FontStyle.Normal,
-        weight = FontWeight.Bold),
+        weight = FontWeight.Bold
+    ),
     Font(
         resId = R.font.playfairdisplay_bolditalic,
         style = FontStyle.Italic,
@@ -89,7 +91,7 @@ val Typography = Typography(
     bodyMedium = TextStyle(
         fontFamily = opensansFamily,
         fontWeight = FontWeight.Normal,
-        fontSize = 14.sp,
+        fontSize = 15.sp,
         lineHeight = 20.sp,
         letterSpacing = 0.5.sp
     ),
@@ -167,8 +169,18 @@ val Typography.creditCardNumberStyle: TextStyle
         )
     }
 
-//FIXME: all these stules should be imported into theme and removed
-//FIXME: title, body, .....
+val Typography.topBarTitleStyle: TextStyle
+    @Composable
+    get() {
+        return TextStyle(
+            fontSize = 26.sp,
+            fontFamily = playfairFamily,
+            fontWeight = FontWeight.W700,
+            color = Color(0xFF000000),
+            textAlign = TextAlign.Center,
+        )
+    }
+
 val Typography.inputLabelStyle: TextStyle
     @Composable
     get() {
@@ -178,7 +190,6 @@ val Typography.inputLabelStyle: TextStyle
             fontWeight = FontWeight(700),
             color = Color(0xFF000000),
         )
-
     }
 
 val Typography.submitButtonTextStyle: TextStyle
@@ -192,4 +203,16 @@ val Typography.submitButtonTextStyle: TextStyle
             textAlign = TextAlign.Center,
         )
 
+    }
+
+val Typography.verificationCode: TextStyle
+    @Composable
+    get() {
+        return TextStyle(
+            fontSize = 22.sp,
+            fontFamily = ptFamily,
+            fontWeight = FontWeight.W400,
+            color = MaterialTheme.colorScheme.inverseSurface,
+            textAlign = TextAlign.Center,
+        )
     }
