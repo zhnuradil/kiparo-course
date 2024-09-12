@@ -1,0 +1,18 @@
+package com.kiparo.deliveryapp.domain.models
+
+enum class ShipmentStatus {
+    ADOPTED_AT_SORTING_CENTER,
+    SENT_FROM_SORTING_CENTER,
+    ADOPTED_AT_SOURCE_BRANCH,
+    SENT_FROM_SOURCE_BRANCH,
+    AVIZO,
+    CONFIRMED,
+    CREATED,
+    DELIVERED,
+    OTHER,
+    OUT_FOR_DELIVERY,
+    PICKUP_TIME_EXPIRED,
+    READY_TO_PICKUP,
+    RETURNED_TO_SENDER,
+    NOT_READY
+}
