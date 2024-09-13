@@ -1,5 +1,6 @@
 package com.kiparo.deliveryapp.data.mappers
 
+import com.kiparo.deliveryapp.data.mappers.toDomainShipmentType
 import com.kiparo.deliveryapp.domain.models.ShipmentType
 import org.junit.Assert
 import org.junit.Test
@@ -7,7 +8,7 @@ import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 
 @RunWith(Parameterized::class)
-class ShipmentTypeMapperTest(private val input: String, private val expected: ShipmentType) {
+class ShipmentTypeMapperTest(private val input: String, private val expected: com.kiparo.deliveryapp.domain.models.ShipmentType) {
 
     @Test
     fun `map shipment type to domain is correct`() {
@@ -27,8 +28,8 @@ class ShipmentTypeMapperTest(private val input: String, private val expected: Sh
         @Parameterized.Parameters
         fun params(): Collection<*> {
             return listOf(
-                arrayOf<Any>("PARCEL_LOCKER", ShipmentType.PARCEL_LOCKER),
-                arrayOf<Any>("COURIER", ShipmentType.COURIER)
+                arrayOf<Any>("PARCEL_LOCKER", com.kiparo.deliveryapp.domain.models.ShipmentType.PARCEL_LOCKER),
+                arrayOf<Any>("COURIER", com.kiparo.deliveryapp.domain.models.ShipmentType.COURIER)
             )
         }
     }

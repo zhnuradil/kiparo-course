@@ -1,5 +1,8 @@
 package com.kiparo.deliveryapp.data.mappers
 
+import com.kiparo.deliveryapp.data.mappers.toDomain
+import com.kiparo.deliveryapp.data.mappers.toDomainShipmentStatus
+import com.kiparo.deliveryapp.data.mappers.toDomainShipmentType
 import com.kiparo.deliveryapp.data.mock.mockCustomerNetwork
 import com.kiparo.deliveryapp.data.mock.mockShipmentNetwork
 import com.kiparo.deliveryapp.domain.models.Customer
@@ -13,7 +16,7 @@ class ShipmentMapperTest {
     fun `map ShipmentNetwork to domain is correct`() {
         val shipmentNetwork = mockShipmentNetwork()
 
-        val expected = Shipment(
+        val expected = com.kiparo.deliveryapp.domain.models.Shipment(
             number = shipmentNetwork.number,
             type = shipmentNetwork.shipmentType.toDomainShipmentType(),
             status = shipmentNetwork.status.toDomainShipmentStatus(),
@@ -34,7 +37,7 @@ class ShipmentMapperTest {
     fun `map CustomerNetwork to domain is correct`() {
         val customerNetwork = mockCustomerNetwork()
 
-        val expected = Customer(
+        val expected = com.kiparo.deliveryapp.domain.models.Customer(
             email = customerNetwork.email ?: "",
             phoneNumber = customerNetwork.phoneNumber ?: "",
             name = customerNetwork.name ?: ""

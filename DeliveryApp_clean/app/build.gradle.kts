@@ -27,7 +27,6 @@ android {
 
     buildTypes {
         debug {
-
             buildConfigField("String", "API_URL", "\"${kiparoApi}\"")
             isMinifyEnabled = false
         }
@@ -52,14 +51,22 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = libs.versions.composecompiler.get()
     }
-
 }
 
 dependencies {
 
+    implementation(project(":data"))
+    implementation(project(":domain"))
+    implementation(project(":presentation"))
+    implementation(project(":core:ui"))
+    implementation(project(":core:di"))
+
     implementation(libs.core.ktx)
 
     implementation(libs.lifecycle.runtime.ktx)
+
+    // parsing
+    implementation(libs.moshi.kotlin)
 
     // ui compose
     implementation(libs.activity.compose)
@@ -72,9 +79,6 @@ dependencies {
     androidTestImplementation(libs.ui.test.junit4)
     debugImplementation(libs.ui.tooling)
     debugImplementation(libs.ui.test.manifest)
-
-    // parsing
-    implementation(libs.moshi.kotlin)
 
     // tests
     testImplementation(libs.junit)

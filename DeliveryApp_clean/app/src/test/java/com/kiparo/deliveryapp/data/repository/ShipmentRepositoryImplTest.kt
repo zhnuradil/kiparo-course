@@ -15,7 +15,7 @@ import org.junit.Assert
 import org.junit.Test
 
 class ShipmentRepositoryImplTest {
-    private val api = mockk<ShipmentApi>()
+    private val api = mockk<com.kiparo.deliveryapp.data.network.api.ShipmentApi>()
     private val dispatcher = UnconfinedTestDispatcher()
 
     private val shipmentHighlight1 =
@@ -31,7 +31,10 @@ class ShipmentRepositoryImplTest {
 
     @Test
     fun `shipments grouped correctly`() = runTest {
-        val repository = ShipmentRepositoryImpl(shipmentApi = api, dispatcher = dispatcher)
+        val repository = com.kiparo.deliveryapp.data.repository.ShipmentRepositoryImpl(
+            shipmentApi = api,
+            dispatcher = dispatcher
+        )
         coEvery { api.getShipments() } returns testShipmentList
 
         val actualShipmentGroup = repository.getGroupedByHighlight()
