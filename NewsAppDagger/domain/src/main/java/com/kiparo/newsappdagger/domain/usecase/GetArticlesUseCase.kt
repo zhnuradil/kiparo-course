@@ -6,8 +6,9 @@ package com.kiparo.newsappdagger.domain.usecase
 
 import com.kiparo.newsappdagger.domain.models.Article
 import com.kiparo.newsappdagger.domain.repository.ArticleRepository
+import javax.inject.Inject
 
-class GetArticlesUseCase(private val articleRepository: ArticleRepository) {
+class GetArticlesUseCase @Inject constructor(private val articleRepository: ArticleRepository) {
 
     suspend fun execute(): List<Article> {
         return articleRepository.get()

@@ -9,26 +9,32 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.kiparo.newsappdagger.presentation.article_details.ArticleDetailsArg
-import com.kiparo.newsappdagger.presentation.article_details.ArticleDetailsFragment
 import com.kiparo.newsappdagger.R
 import com.kiparo.newsappdagger.core.ui.recycler.SpaceDecoration
 import com.kiparo.newsappdagger.databinding.FragmentNewsBinding
-import com.kiparo.newsappdagger.di.kiparoDi
-import com.kiparo.newsappdagger.domain.usecase.GetArticlesUseCase
+import com.kiparo.newsappdagger.di.DiProvider
+import com.kiparo.newsappdagger.presentation.article_details.ArticleDetailsArg
+import com.kiparo.newsappdagger.presentation.article_details.ArticleDetailsFragment
 import com.kiparo.newsappdagger.presentation.navigation.Navigator
+import dagger.Lazy
+import javax.inject.Inject
 
 class NewsFragment : Fragment(R.layout.fragment_news) {
 
-    private val viewModel by viewModels<NewsViewModel> {
-        NewsViewModelFactory(getArticlesUseCase = kiparoDi<GetArticlesUseCase>().value)
-    }
+    @Inject
+    lateinit var vmFactory: Lazy<NewsViewModelFactory>
+
+    private val viewModel by viewModels<NewsViewModel> { vmFactory.get() }
     private val adapter = NewsAdapter {
         viewModel.articleClicked(article = it)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val newsComponent = DiProvider.appComponent.newsComponent
+        newsComponent.build().inject(this)
+
         if(savedInstanceState == null) {
             viewModel.load()
         }

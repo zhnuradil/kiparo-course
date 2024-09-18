@@ -5,8 +5,9 @@
 package com.kiparo.newsappdagger.domain.usecase
 
 import com.kiparo.newsappdagger.domain.repository.ArticleRepository
+import javax.inject.Inject
 
-class AddArticleToFavoritesUseCase(private val articleRepository: ArticleRepository) {
+class AddArticleToFavoritesUseCase @Inject constructor(private val articleRepository: ArticleRepository) {
 
     suspend fun execute() {
         articleRepository.addToFavorites()

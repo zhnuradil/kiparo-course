@@ -11,6 +11,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.CreationExtras
 import com.kiparo.newsappdagger.domain.usecase.AddArticleToFavoritesUseCase
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.launch
 
 internal sealed class Screen {
@@ -54,8 +57,13 @@ internal class ArticleDetailsViewModel(
     }
 }
 
-class ArticleDetailsViewModelFactory(
-    private val article: ArticleDetailsArg,
+@AssistedFactory
+interface ArticleDetailsViewModelFactoryAssisted {
+    fun create(article: ArticleDetailsArg): ArticleDetailsViewModelFactory
+}
+
+class ArticleDetailsViewModelFactory @AssistedInject constructor(
+    @Assisted private val article: ArticleDetailsArg,
     private val addArticleToFavoritesUseCase: AddArticleToFavoritesUseCase,
 ) :
     ViewModelProvider.Factory {

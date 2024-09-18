@@ -14,6 +14,7 @@ import com.kiparo.newsappdagger.domain.models.Article
 import com.kiparo.newsappdagger.domain.usecase.GetArticlesUseCase
 import com.kiparo.newsappdagger.presentation.article_details.ArticleDetailsArg
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 internal sealed class NewsScreen {
     data object Nothing : NewsScreen()
@@ -48,7 +49,7 @@ internal class NewsViewModel(private val getArticlesUseCase: GetArticlesUseCase)
     }
 }
 
-class NewsViewModelFactory(private val getArticlesUseCase: GetArticlesUseCase) :
+class NewsViewModelFactory (private val getArticlesUseCase: GetArticlesUseCase) :
     ViewModelProvider.Factory {
 
     @Suppress("UNCHECKED_CAST")

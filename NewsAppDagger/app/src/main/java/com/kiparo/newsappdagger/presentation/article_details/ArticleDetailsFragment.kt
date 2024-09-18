@@ -10,18 +10,24 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.kiparo.newsappdagger.R
 import com.kiparo.newsappdagger.databinding.FragmentArticleDetailsBinding
-import com.kiparo.newsappdagger.di.kiparoDi
+import com.kiparo.newsappdagger.di.DiProvider
 import com.kiparo.newsappdagger.domain.usecase.AddArticleToFavoritesUseCase
 import com.kiparo.newsappdagger.presentation.navigation.Navigator
+import javax.inject.Inject
 
 @Suppress("DEPRECATION")
 class ArticleDetailsFragment : Fragment(R.layout.fragment_article_details) {
 
+    @Inject
+    lateinit var vmFactoryAssisted: ArticleDetailsViewModelFactoryAssisted
+
     private val viewModel by viewModels<ArticleDetailsViewModel> {
-        ArticleDetailsViewModelFactory(
-            article = getArticleArg(arguments),
-            addArticleToFavoritesUseCase = kiparoDi<AddArticleToFavoritesUseCase>().value
-        )
+        vmFactoryAssisted.create(getArticleArg(arguments))
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        DiProvider.appComponent.inject(this)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -5,5 +5,5 @@
 package com.kiparo.newsappdagger.di
 
 object DiProvider {
-    lateinit var di: GlobalDI
+    lateinit var appComponent: AppComponent
 }
