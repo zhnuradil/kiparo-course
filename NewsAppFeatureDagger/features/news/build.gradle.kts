@@ -39,7 +39,6 @@ android {
 }
 
 dependencies {
-    implementation(project(":core:di"))
     implementation(project(":core:navigation"))
     api(project(":core:ui"))
     implementation(project(":data_api"))

@@ -1,6 +1,11 @@
 package com.kiparo.newsappfeaturedagger.di
 
 import android.content.Context
+import com.kiparo.newsappfeaturedagger.article_details.api.ArticleDetailsFeatureApi
+import com.kiparo.newsappfeaturedagger.article_details.di.ArticleDetailsFeatureDeps
+import com.kiparo.newsappfeaturedagger.core.navigation.Router
+import com.kiparo.newsappfeaturedagger.domain.repository.ArticleRepository
+import com.kiparo.newsappfeaturedagger.news.di.NewsFeatureDeps
 import com.kiparo.newsappfeaturedagger.presentation.navigation.NavigatorFragment
 import dagger.BindsInstance
 import dagger.Component
@@ -14,7 +19,11 @@ import javax.inject.Singleton
         RepositoriesModule::class,
         FeaturesModule::class]
 )
-interface AppComponent {
+interface AppComponent: NewsFeatureDeps, ArticleDetailsFeatureDeps {
+
+    override val router: Router
+    override val articleRepository: ArticleRepository
+    override val articleDetailsFeatureApi: ArticleDetailsFeatureApi
 
     fun inject(fragment: NavigatorFragment)
 

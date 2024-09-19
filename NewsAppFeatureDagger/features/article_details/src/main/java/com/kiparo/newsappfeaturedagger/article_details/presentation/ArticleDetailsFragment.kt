@@ -8,26 +8,34 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.kiparo.newsappdagger.core.di.kiparoDi
 import com.kiparo.newsappfeaturedagger.article_details.R
 import com.kiparo.newsappfeaturedagger.article_details.api.ArticleDetailsArg
 import com.kiparo.newsappfeaturedagger.article_details.databinding.FragmentArticleDetailsBinding
-import com.kiparo.newsappfeaturedagger.article_details.domain.AddArticleToFavoritesUseCase
+import com.kiparo.newsappfeaturedagger.article_details.di.ArticleDetailsFeatureDepsProvider
+import com.kiparo.newsappfeaturedagger.article_details.di.DaggerArticleDetailsComponent
 import com.kiparo.newsappfeaturedagger.core.navigation.Router
-import com.kiparo.newsappfeaturedagger.domain.repository.ArticleRepository
+import javax.inject.Inject
 
 class ArticleDetailsFragment : Fragment(R.layout.fragment_article_details) {
 
+    @Inject
+    lateinit var router: Router
+
+    @Inject
+    lateinit var vmFactoryAssisted: ArticleDetailsViewModelFactoryAssisted
+
     private val viewModel by viewModels<ArticleDetailsViewModel> {
-        ArticleDetailsViewModelFactory(
-            article = getArticleArg(arguments),
-            addArticleToFavoritesUseCase = AddArticleToFavoritesUseCase(
-                articleRepository = kiparoDi<ArticleRepository>().value
-            )
-        )
+        vmFactoryAssisted.create(article = getArticleArg(arguments))
     }
 
-    private val router = kiparoDi<Router>().value
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val articleDetailsComponent = DaggerArticleDetailsComponent
+            .builder()
+            .addDeps(ArticleDetailsFeatureDepsProvider.deps)
+            .build()
+        articleDetailsComponent.inject(this)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

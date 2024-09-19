@@ -9,35 +9,43 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.kiparo.newsappdagger.core.di.kiparoDi
 import com.kiparo.newsappfeaturedagger.article_details.api.ArticleDetailsArg
 import com.kiparo.newsappfeaturedagger.article_details.api.ArticleDetailsFeatureApi
 import com.kiparo.newsappfeaturedagger.core.navigation.Router
 import com.kiparo.newsappfeaturedagger.core.ui.recycler.SpaceDecoration
-import com.kiparo.newsappfeaturedagger.domain.repository.ArticleRepository
 import com.kiparo.newsappfeaturedagger.news.R
 import com.kiparo.newsappfeaturedagger.news.databinding.FragmentNewsBinding
-import com.kiparo.newsappfeaturedagger.news.domain.GetArticlesUseCase
+import com.kiparo.newsappfeaturedagger.news.di.DaggerNewsComponent
+import com.kiparo.newsappfeaturedagger.news.di.NewsFeatureDepsProvider
+import javax.inject.Inject
 
 class NewsFragment : Fragment(R.layout.fragment_news) {
 
-    private val viewModel by viewModels<NewsViewModel> {
-        NewsViewModelFactory(
-            getArticlesUseCase = GetArticlesUseCase(
-                articleRepository = kiparoDi<ArticleRepository>().value
-            )
-        )
-    }
+    @Inject
+    lateinit var vmFactory: NewsViewModelFactory
+
+    @Inject
+    lateinit var router: Router
+
+    @Inject
+    lateinit var articleDetailsFeatureApi: ArticleDetailsFeatureApi
+
+    private val viewModel by viewModels<NewsViewModel> { vmFactory }
+
     private val adapter = NewsAdapter {
         viewModel.articleClicked(article = it)
     }
 
-    private val router = kiparoDi<Router>().value
-
-    private val articleDetailsFeatureApi = kiparoDi<ArticleDetailsFeatureApi>().value
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val newsComponent = DaggerNewsComponent
+            .builder()
+            .addDeps(NewsFeatureDepsProvider.deps)
+            .build()
+
+        newsComponent.inject(this)
+
         if (savedInstanceState == null) {
             viewModel.load()
         }

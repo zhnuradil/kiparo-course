@@ -15,7 +15,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "KiparoNewsAppFeatureDagger"
 include(":app")
-include(":core:di")
 include(":core:navigation")
 include(":core:ui")
 include(":data")

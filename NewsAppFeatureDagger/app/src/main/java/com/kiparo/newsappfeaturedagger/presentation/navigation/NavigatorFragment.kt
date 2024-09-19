@@ -10,21 +10,26 @@ import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import com.kiparo.newsappdagger.core.di.kiparoDi
 import com.kiparo.newsappfeaturedagger.R
 import com.kiparo.newsappfeaturedagger.core.navigation.Router
+import com.kiparo.newsappfeaturedagger.di.DaggerProvider
 import com.kiparo.newsappfeaturedagger.news.api.NewsFeatureApi
+import javax.inject.Inject
 
 class NavigatorFragment : Fragment(R.layout.fragment_navigator), NavigatorHolder {
 
-    private val navigatorLifecycle = kiparoDi<NavigatorLifecycle>().value
+    @Inject
+    lateinit var navigatorLifecycle: NavigatorLifecycle
 
-    private val router = kiparoDi<Router>().value
+    @Inject
+    lateinit var router: Router
 
-    private val newsFeatureApi = kiparoDi<NewsFeatureApi>().value
+    @Inject
+    lateinit var newsFeatureApi: NewsFeatureApi
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        DaggerProvider.appComponent.inject(this)
         navigatorLifecycle.onCreate(this)
     }
 
