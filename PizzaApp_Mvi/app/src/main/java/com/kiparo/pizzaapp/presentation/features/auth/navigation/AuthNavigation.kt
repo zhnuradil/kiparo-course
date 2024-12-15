@@ -1,6 +1,8 @@
 package com.kiparo.pizzaapp.presentation.features.auth.navigation
 
 import SignUpViewModel
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -12,6 +14,7 @@ import com.kiparo.pizzaapp.core.navigation.KiparoPizzaDestination
 import com.kiparo.pizzaapp.core.navigation.navigateSingleTopTo
 import com.kiparo.pizzaapp.presentation.features.auth.reset.ResetPasswordScreen
 import com.kiparo.pizzaapp.presentation.features.auth.reset.ResetPasswordViewModel
+import com.kiparo.pizzaapp.presentation.features.auth.signin.SignInContract
 import com.kiparo.pizzaapp.presentation.features.auth.signin.SignInScreen
 import com.kiparo.pizzaapp.presentation.features.auth.signin.SignInViewModel
 import com.kiparo.pizzaapp.presentation.features.auth.signup.SignUpScreen
@@ -68,13 +71,33 @@ private fun NavGraphBuilder.signIn(
     composable(route = SignInDestination.route) {
         val viewModel: SignInViewModel = viewModel()
         val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+        val event by viewModel.event.collectAsStateWithLifecycle()
+
+        DisposableEffect(event) {
+            when (event) {
+                SignInContract.Event.BackPressed -> Unit
+                SignInContract.Event.NavigateToRegister -> onNavigateToRegister()
+                SignInContract.Event.SignedIn -> onSignedIn()
+                SignInContract.Event.Reset -> onNavigateToReset()
+                else -> Unit
+            }
+
+            onDispose {
+                viewModel.consume()
+            }
+        }
+
         SignInScreen(
             uiState = uiState,
-            onLoginClick = onSignedIn,
-            onRegisterClick = onNavigateToRegister,
-            onResetClick = onNavigateToReset,
-            onEmailChange = viewModel::onEmailChange,
-            onPasswordChange = viewModel::onPasswordChange,
+            onLoginClick = { viewModel.onAction(SignInContract.Action.SignIn) },
+            onRegisterClick = { viewModel.onAction(SignInContract.Action.Register) },
+            onResetClick = { viewModel.onAction(SignInContract.Action.Reset) },
+            onEmailChange = { email -> viewModel.onAction(SignInContract.Action.EmailChange(email)) },
+            onPasswordChange = { password ->
+                viewModel.onAction(
+                    SignInContract.Action.PasswordChange(password)
+                )
+            },
         )
     }
 }

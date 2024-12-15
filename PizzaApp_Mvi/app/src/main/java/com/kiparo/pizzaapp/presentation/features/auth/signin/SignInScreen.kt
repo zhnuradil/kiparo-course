@@ -28,7 +28,7 @@ import com.kiparo.pizzaapp.core.widgets.TextWithSingleLink
 
 @Composable
 fun SignInScreen(
-    uiState: SignInUiState,
+    uiState: SignInContract.State,
     onEmailChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
     onLoginClick: () -> Unit,
@@ -67,6 +67,7 @@ fun SignInScreen(
             modifier = Modifier.fillMaxWidth(),
             value = uiState.password,
             placeholderResId = R.string.password_placeholder,
+            hasError = uiState.passwordError,
             leadingIconResId = R.drawable.ic_key,
             onValueChange = onPasswordChange,
             visualTransformation = PasswordVisualTransformation()
@@ -99,9 +100,8 @@ fun SignInScreen(
 @Composable
 fun SignInScreenPreview() {
     KiparoPizzaAppTheme {
-        SignInScreen(uiState = SignInUiState(
-            login = "", loginError = true,
-            password = ""),
+        SignInScreen(
+            uiState = SignInContract.State.notAuthenticated(),
             onLoginClick = {}, onRegisterClick = {}, onResetClick = {},
             onEmailChange = {},
             onPasswordChange = {})

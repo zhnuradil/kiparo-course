@@ -8,24 +8,28 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
 
-data class SignInUiState(
-    val login: String,
-    val loginError: Boolean,
-    val password: String,
-)
+class SignInViewModel : ViewModel(), SignInContract {
+    private val _uiState = MutableStateFlow(SignInContract.State.initial())
+    override val uiState = _uiState.asStateFlow()
 
-class SignInViewModel : ViewModel() {
-    private val _uiState = MutableStateFlow(
-        SignInUiState(
-            login = "",
-            loginError = false,
-            password = ""
-        )
-    )
+    private val _event = MutableStateFlow<SignInContract.Event?>(null)
+    override val event = _event.asStateFlow()
 
-    val uiState = _uiState.asStateFlow()
+    override fun onAction(action: SignInContract.Action) {
+        when (action) {
+            is SignInContract.Action.EmailChange -> onEmailChange(action.email)
+            is SignInContract.Action.PasswordChange -> onPasswordChange(action.password)
+            SignInContract.Action.Register -> onRegister()
+            SignInContract.Action.Reset -> onReset()
+            SignInContract.Action.SignIn -> onSignIn()
+        }
+    }
 
-    fun onEmailChange(email: String) {
+    override fun consume() {
+        _event.update { null }
+    }
+
+    private fun onEmailChange(email: String) {
         _uiState.update {
             it.copy(
                 login = email,
@@ -34,11 +38,37 @@ class SignInViewModel : ViewModel() {
         }
     }
 
-    fun onPasswordChange(password: String) {
+    private fun onPasswordChange(password: String) {
         _uiState.update {
             it.copy(
-                password = password
+                password = password,
+                passwordError = password.isNotEmpty() && password.isValidPassword().not()
             )
         }
+    }
+
+    private fun onSignIn() {
+        val email = uiState.value.login
+        val password = uiState.value.password
+        val emailValid = email.isNotEmpty() && email.isValidEmail()
+        val passwordValid = password.isNotEmpty() && password.isValidPassword()
+
+        if (emailValid && passwordValid) {
+            _event.update {
+                SignInContract.Event.SignedIn
+            }
+        } else {
+            _uiState.update {
+                SignInContract.State.notAuthenticated()
+            }
+        }
+    }
+
+    private fun onRegister() {
+        _event.update { SignInContract.Event.NavigateToRegister }
+    }
+
+    private fun onReset() {
+        _event.update { SignInContract.Event.Reset }
     }
 }
