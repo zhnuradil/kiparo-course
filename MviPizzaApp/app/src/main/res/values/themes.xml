@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="Theme.KiparoPizzaApp" parent="android:Theme.Material.Light.NoActionBar">
+
+<!--        <item name="android:statusBarColor">@android:color/transparent</item>-->
+<!--        <item name="android:navigationBarColor">@android:color/transparent</item>-->
+
+
+        <!-- Common background screens background -->
+<!--                <item name="android:colorBackground">#FFFFFF</item>-->
+                <!-- System status bar color. -->
+                <item name="android:statusBarColor">#03FFFFFF</item>
+                <item name="android:windowLightStatusBar">true</item>
+<!--                &lt;!&ndash; System nav bar color. &ndash;&gt;-->
+                <item name="android:navigationBarColor">#03FFFFFF</item>
+                <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
+
+    </style>
+</resources>
