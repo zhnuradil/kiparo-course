@@ -9,11 +9,13 @@ import com.kiparo.pizzaapp.R
 fun PasswordFormField(
     modifier: Modifier = Modifier,
     value: String,
+    hasError: Boolean,
     onValueChange: (String) -> Unit
 ) {
     FormField(
         modifier = modifier,
         value = value,
+        hasError = hasError,
         placeholderResId = R.string.password_placeholder,
         leadingIconResId = R.drawable.ic_key,
         visualTransformation = PasswordVisualTransformation(),

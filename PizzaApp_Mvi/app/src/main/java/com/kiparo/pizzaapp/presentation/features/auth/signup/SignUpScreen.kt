@@ -30,10 +30,13 @@ import com.kiparo.pizzaapp.core.widgets.TextWithSingleLink
 
 @Composable
 fun SignUpScreen(
+    uiState: SignUpContract.State,
     onFirstNameChange: (String) -> Unit,
     onEmailChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
-    onRegisterClick: ()->Unit) {
+    onRegisterClick: () -> Unit,
+    onNavigateToSignInClick: () -> Unit
+) {
     BackgroundColumn {
         StatusBarInsetsSpacer()
         Spacer(modifier = Modifier.height(space16))
@@ -53,7 +56,7 @@ fun SignUpScreen(
         Spacer(modifier = Modifier.height(space32))
         FormField(
             modifier = Modifier.fillMaxWidth(),
-            value = "",
+            value = uiState.firstname,
             placeholderResId = R.string.name_placeholder,
             leadingIconResId = R.drawable.ic_person,
             onValueChange = onFirstNameChange
@@ -61,25 +64,28 @@ fun SignUpScreen(
         Spacer(modifier = Modifier.height(space24))
         EmailFormField(
             modifier = Modifier.fillMaxWidth(),
-            value = "",
+            value = uiState.email,
+            hasError = uiState.emailError,
             onValueChange = onEmailChange
         )
         Spacer(modifier = Modifier.height(space24))
 
         PasswordFormField(
             modifier = Modifier.fillMaxWidth(),
-            value = "",
+            value = uiState.password,
+            hasError = uiState.passwordError,
             onValueChange = onPasswordChange
         )
         Spacer(modifier = Modifier.height(space56))
 
         DefaultButton(
             modifier = Modifier.fillMaxWidth(),
-            textResId = R.string.signup, onClick = onRegisterClick)
+            textResId = R.string.signup, onClick = onRegisterClick
+        )
         Spacer(modifier = Modifier.height(space24))
 
         TextWithSingleLink(sentence = stringResource(R.string.already_member_login),
-            onLinkClicked = {})
+            onLinkClicked = { onNavigateToSignInClick() })
     }
 }
 
@@ -87,9 +93,13 @@ fun SignUpScreen(
 @Composable
 fun SignUpScreenPreview() {
     KiparoPizzaAppTheme {
-        SignUpScreen(onRegisterClick = {},
+        SignUpScreen(
+            uiState = SignUpContract.State.initial(),
+            onRegisterClick = {},
             onFirstNameChange = {},
             onEmailChange = {},
-            onPasswordChange = {})
+            onPasswordChange = {},
+            onNavigateToSignInClick = {}
+        )
     }
 }

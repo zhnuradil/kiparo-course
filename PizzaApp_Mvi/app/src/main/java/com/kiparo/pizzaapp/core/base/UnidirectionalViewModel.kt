@@ -4,7 +4,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.kiparo.pizzaapp.presentation.features.auth.signin.SignInContract
 import kotlinx.coroutines.flow.StateFlow
 
 
@@ -24,7 +23,7 @@ fun <STATE, ACTION, EVENT> UnidirectionalViewModel<STATE, ACTION, EVENT>.useEven
 ) {
     val key by event.collectAsStateWithLifecycle()
 
-    DisposableEffect(event) {
+    DisposableEffect(key) {
         function(key)
         onDispose { consume() }
     }

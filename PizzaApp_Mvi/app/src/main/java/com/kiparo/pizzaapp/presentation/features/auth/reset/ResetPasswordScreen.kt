@@ -48,6 +48,7 @@ fun ResetPasswordScreen(onResetClick: ()->Unit) {
         EmailFormField(
             modifier = Modifier.fillMaxWidth(),
             value = "",
+            hasError = false,
             onValueChange = {}
         )
         Spacer(modifier = Modifier.height(space56))

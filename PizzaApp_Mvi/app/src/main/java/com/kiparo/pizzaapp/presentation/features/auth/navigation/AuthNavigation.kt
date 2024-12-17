@@ -1,8 +1,6 @@
 package com.kiparo.pizzaapp.presentation.features.auth.navigation
 
 import SignUpViewModel
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -10,6 +8,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
+import com.kiparo.pizzaapp.core.base.useEvent
 import com.kiparo.pizzaapp.core.navigation.KiparoPizzaDestination
 import com.kiparo.pizzaapp.core.navigation.navigateSingleTopTo
 import com.kiparo.pizzaapp.presentation.features.auth.reset.ResetPasswordScreen
@@ -17,12 +16,17 @@ import com.kiparo.pizzaapp.presentation.features.auth.reset.ResetPasswordViewMod
 import com.kiparo.pizzaapp.presentation.features.auth.signin.SignInContract
 import com.kiparo.pizzaapp.presentation.features.auth.signin.SignInScreen
 import com.kiparo.pizzaapp.presentation.features.auth.signin.SignInViewModel
+import com.kiparo.pizzaapp.presentation.features.auth.signup.SignUpContract
 import com.kiparo.pizzaapp.presentation.features.auth.signup.SignUpScreen
 
 const val AUTH_ROUTE = "authentication"
 
 fun NavHostController.navigateToAuth() {
     navigateSingleTopTo(AUTH_ROUTE)
+}
+
+fun NavHostController.navigateToSignIn() {
+    navigate(SignInDestination.route)
 }
 
 fun NavHostController.navigateToRegister() {
@@ -49,6 +53,7 @@ private data object ResetPasswordDestination : KiparoPizzaDestination {
 interface AuthNavigator {
     fun onNavigateAfterLogin()
     fun onNavigateToRegister()
+    fun onNavigateToSign()
     fun onNavigateToReset()
     fun onNavigateUp()
 }
@@ -60,7 +65,10 @@ fun NavGraphBuilder.authentication(externalNavigator: AuthNavigator) {
             onNavigateToRegister = externalNavigator::onNavigateToRegister,
             onNavigateToReset = externalNavigator::onNavigateToReset,
         )
-        signUp(onRegisterClick = externalNavigator::onNavigateUp)
+        signUp(
+            onNavigateToSignIn = externalNavigator::onNavigateToSign,
+            onSignedUp = externalNavigator::onNavigateAfterLogin
+        )
         resetPassword(onResetClick = externalNavigator::onNavigateUp)
     }
 }
@@ -71,19 +79,14 @@ private fun NavGraphBuilder.signIn(
     composable(route = SignInDestination.route) {
         val viewModel: SignInViewModel = viewModel()
         val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-        val event by viewModel.event.collectAsStateWithLifecycle()
 
-        DisposableEffect(event) {
+        viewModel.useEvent { event ->
             when (event) {
                 SignInContract.Event.BackPressed -> Unit
                 SignInContract.Event.NavigateToRegister -> onNavigateToRegister()
                 SignInContract.Event.SignedIn -> onSignedIn()
                 SignInContract.Event.Reset -> onNavigateToReset()
                 else -> Unit
-            }
-
-            onDispose {
-                viewModel.consume()
             }
         }
 
@@ -102,14 +105,42 @@ private fun NavGraphBuilder.signIn(
     }
 }
 
-private fun NavGraphBuilder.signUp(onRegisterClick: () -> Unit) {
+private fun NavGraphBuilder.signUp(
+    onSignedUp: () -> Unit,
+    onNavigateToSignIn: () -> Unit
+) {
     composable(route = SignUpDestination.route) {
+
         val viewModel: SignUpViewModel = viewModel()
+        val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+        viewModel.useEvent { event ->
+            when (event) {
+                SignUpContract.Event.NavigateToSignIn -> onNavigateToSignIn()
+                SignUpContract.Event.SignedUp -> onSignedUp()
+                else -> Unit
+            }
+        }
+
         SignUpScreen(
-            onRegisterClick = onRegisterClick,
-            onFirstNameChange = viewModel::onFirstNameChange,
-            onEmailChange = viewModel::onEmailChange,
-            onPasswordChange = viewModel::onPasswordChange
+            uiState = uiState,
+            onRegisterClick = { viewModel.onAction(SignUpContract.Action.RegisterClick) },
+            onNavigateToSignInClick = { viewModel.onAction(SignUpContract.Action.NavigateToSignIn) },
+            onFirstNameChange = { firstname ->
+                viewModel.onAction(
+                    SignUpContract.Action.FirstNameChange(firstname)
+                )
+            },
+            onEmailChange = { email ->
+                viewModel.onAction(
+                    SignUpContract.Action.EmailChange(email)
+                )
+            },
+            onPasswordChange = { password ->
+                viewModel.onAction(
+                    SignUpContract.Action.PasswordChange(password)
+                )
+            }
         )
     }
 }

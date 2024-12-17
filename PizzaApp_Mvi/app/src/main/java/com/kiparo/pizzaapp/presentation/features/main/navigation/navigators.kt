@@ -2,11 +2,11 @@ package com.kiparo.pizzaapp.presentation.features.main.navigation
 
 import androidx.navigation.NavHostController
 import com.kiparo.pizzaapp.core.navigation.navigateSingleTopTo
-import com.kiparo.pizzaapp.presentation.features.auth.navigation.AUTH_ROUTE
 import com.kiparo.pizzaapp.presentation.features.auth.navigation.AuthNavigator
 import com.kiparo.pizzaapp.presentation.features.auth.navigation.navigateToAuth
 import com.kiparo.pizzaapp.presentation.features.auth.navigation.navigateToRegister
 import com.kiparo.pizzaapp.presentation.features.auth.navigation.navigateToReset
+import com.kiparo.pizzaapp.presentation.features.auth.navigation.navigateToSignIn
 import com.kiparo.pizzaapp.presentation.features.bottom_menu.navigation.BOTTOM_MENU_ROUTE
 import com.kiparo.pizzaapp.presentation.features.bottom_menu.navigation.BottomMenuNavigator
 import com.kiparo.pizzaapp.presentation.features.details.navigation.navigateToDetails
@@ -29,6 +29,10 @@ fun NavHostController.authNavigator()
 
     override fun onNavigateToRegister() {
         navigateToRegister()
+    }
+
+    override fun onNavigateToSign() {
+        navigateToSignIn()
     }
 
     override fun onNavigateToReset() {

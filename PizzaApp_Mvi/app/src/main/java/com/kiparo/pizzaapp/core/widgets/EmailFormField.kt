@@ -8,12 +8,14 @@ import com.kiparo.pizzaapp.R
 fun EmailFormField(
     modifier: Modifier = Modifier,
     value: String,
-    onValueChange:(String)->Unit
+    hasError: Boolean,
+    onValueChange: (String) -> Unit
 ) {
     FormField(
         modifier = modifier,
         value = value,
         onValueChange = onValueChange,
+        hasError = hasError,
         placeholderResId = R.string.email_placeholder,
         leadingIconResId = R.drawable.ic_mail
     )
