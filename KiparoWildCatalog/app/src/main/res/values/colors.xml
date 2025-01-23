@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primary">#00a8ff</color>
+    <color name="primary_variant">#00a8ff</color>
+    <color name="secondary">#FF03DAC5</color>
+    <color name="secondary_variant">#FF018786</color>
+    <color name="text_primary">#FFFFFFFF</color>
+    <color name="text_secondary">#FF000000</color>
+    <color name="background">#FFFFFFFF</color>
+
+    <color name="kip_white">#a5a504</color>
+    <color name="kip_blue">#00a8ff</color>
+    <color name="kip_black">#000000</color>
+    <color name="kip_red">#ff0000</color>
+    <color name="kip_green">#319c1f</color>
+    <color name="kip_other">#aab4ba</color>
+</resources>

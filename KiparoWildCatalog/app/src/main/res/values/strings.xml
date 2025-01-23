@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">KiparoWildCatalog</string>
+    <string name="product_remove_button">Product remove button</string>
+    <string name="favorites">favorites</string>
+</resources>
