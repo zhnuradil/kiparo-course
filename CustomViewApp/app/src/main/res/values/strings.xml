@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Kiparo CustomViewApp</string>
+    <string name="concert_hall">Concert Hall</string>
+    <string name="diagram">Diagram</string>
+    <string name="equalizer">Equalizer</string>
+    <string name="free_drawing">Free drawing</string>
+</resources>
