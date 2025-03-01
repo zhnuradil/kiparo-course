@@ -1,11 +1,17 @@
 package com.kiparo.wildcatalog.presentation.catalog
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kiparo.wildcatalog.R
 import com.kiparo.wildcatalog.databinding.ActivityCatalogBinding
 import com.kiparo.wildcatalog.presentation.catalog.data.DataSource
+import com.kiparo.wildcatalog.presentation.catalog.delegates.AdvertisementDelegateAdapter
+import com.kiparo.wildcatalog.presentation.catalog.delegates.ProductItemDelegateAdapter
+import com.kiparo.wildcatalog.presentation.catalog.delegates.VideoStreamDelegateAdapter
+import com.kiparo.wildcatalog.presentation.catalog.model.AdvertisementItem
+import com.kiparo.wildcatalog.presentation.catalog.model.ProductItem
 
 const val TAG = "Catalog"
 
@@ -20,27 +26,35 @@ class CatalogActivity : AppCompatActivity() {
 
         dataSource.generate()
 
-        val catalogAdapter = CatalogAdapter(
-            productRemoveListener = { product ->
-                dataSource.delete(product)
-            },
-            generateNextVideoListener = { video ->
-                dataSource.generateNext(video)
-            },
-            onFavoritesToggle = {adv ->
-                dataSource.toggleFavorite(adv.id)
-            }
-        ).apply {
-            items = dataSource.getData()
+        val productItemDelegateAdapter = ProductItemDelegateAdapter { product ->
+            dataSource.delete(product)
         }
 
+        val advertisementDelegateAdapter = AdvertisementDelegateAdapter { advertisement ->
+            dataSource.toggleFavorite(advertisement.id)
+        }
+
+        val videoStreamDelegateAdapter = VideoStreamDelegateAdapter { video ->
+            dataSource.generateNext(video)
+        }
+
+        val catalogCompositeAdapter = CatalogCompositeAdapter
+            .Builder()
+            .add(productItemDelegateAdapter)
+            .add(advertisementDelegateAdapter)
+            .add(videoStreamDelegateAdapter)
+            .build()
+            .apply {
+                submitList(dataSource.getData())
+            }
+
         dataSource.observer = {
-            catalogAdapter.items = dataSource.getData()
+            catalogCompositeAdapter.submitList(dataSource.getData())
         }
 
         with(binding.catalogRecyclerView) {
             layoutManager = LinearLayoutManager(this@CatalogActivity)
-            adapter = catalogAdapter
+            adapter = catalogCompositeAdapter
             addItemDecoration(SpaceDecoration(resources.getDimensionPixelSize(R.dimen.padding_default)))
         }
     }
